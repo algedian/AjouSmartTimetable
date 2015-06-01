@@ -14,8 +14,7 @@
     <GridLayout 
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
-    	android:columnCount="2"
-    	android:rowCount="2"
+    	android:columnCount="4"
     	android:orientation="horizontal"
         >
 	   	<Button
@@ -23,32 +22,32 @@
 	   	    android:layout_width="match_parent"
 	   	    android:layout_height="match_parent"
 	   	    android:text="전필"
-	   	    android:textSize="30sp"
-	   	    android:padding="20sp"
+	   	    android:textSize="10sp"
+	   	    android:padding="10sp"
 	   	    />
 	    <Button
 	   	    android:id="@+id/btn_elective_major" 
 	   	    android:layout_width="match_parent"
 	   	    android:layout_height="match_parent"
 	   	    android:text="전선"
-	   	    android:textSize="30sp"
-	   	    android:padding="20sp"
+	   	    android:textSize="10sp"
+	   	    android:padding="10sp"
 	   	    />
 	    <Button
 	   	    android:id="@+id/btn_required_liberal" 
 	   	    android:layout_width="match_parent"
 	   	    android:layout_height="match_parent"
 	   	    android:text="교필"
-	   	    android:textSize="30sp"
-	   	    android:padding="20sp"
+	   	    android:textSize="10sp"
+	   	    android:padding="10sp"
 	   	    />
 	    <Button
 	   	    android:id="@+id/btn_elective_liberal" 
 	   	    android:layout_width="match_parent"
 	   	    android:layout_height="match_parent"
 	   	    android:text="교선"
-	   	    android:textSize="30sp"
-	   	    android:padding="20sp"
+	   	    android:textSize="10sp"
+	   	    android:padding="10sp"
 	   	    />
     </GridLayout>
     
