@@ -14,41 +14,55 @@
     <GridLayout 
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
-    	android:columnCount="4"
+    	android:columnCount="5"
     	android:orientation="horizontal"
         >
 	   	<Button
-	   	    android:id="@+id/btn_required_major" 
+	   	    android:id="@+id/btnRequiredMajor" 
 	   	    android:layout_width="match_parent"
 	   	    android:layout_height="match_parent"
 	   	    android:text="전필"
-	   	    android:textSize="10sp"
+	   	    android:textSize="20sp"
 	   	    android:padding="10sp"
 	   	    />
 	    <Button
-	   	    android:id="@+id/btn_elective_major" 
+	   	    android:id="@+id/btnElectiveMajor" 
 	   	    android:layout_width="match_parent"
 	   	    android:layout_height="match_parent"
 	   	    android:text="전선"
-	   	    android:textSize="10sp"
+	   	    android:textSize="20sp"
 	   	    android:padding="10sp"
 	   	    />
 	    <Button
-	   	    android:id="@+id/btn_required_liberal" 
+	   	    android:id="@+id/btnRequiredLiberal" 
 	   	    android:layout_width="match_parent"
 	   	    android:layout_height="match_parent"
 	   	    android:text="교필"
-	   	    android:textSize="10sp"
+	   	    android:textSize="20sp"
 	   	    android:padding="10sp"
 	   	    />
 	    <Button
-	   	    android:id="@+id/btn_elective_liberal" 
+	   	    android:id="@+id/btnElectiveLiberal" 
 	   	    android:layout_width="match_parent"
 	   	    android:layout_height="match_parent"
 	   	    android:text="교선"
-	   	    android:textSize="10sp"
+	   	    android:textSize="20sp"
+	   	    android:padding="10sp"
+	   	    />
+	    <Button
+	   	    android:id="@+id/btnSaveTimetable" 
+	   	    android:layout_width="match_parent"
+	   	    android:layout_height="match_parent"
+	   	    android:text="저장"
+	   	    android:textSize="20sp"
 	   	    android:padding="10sp"
 	   	    />
     </GridLayout>
+    
+    <ListView
+        android:id="@+id/listviewCategory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    />
     
 </LinearLayout>

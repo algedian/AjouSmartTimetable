@@ -4,10 +4,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-    <ListView
-        android:layout_width="match_parent"
-    	android:layout_height="match_parent"
-    	android:id="@+id/detailCourse"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtCourseName" 
+        android:textSize="40sp"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtProfName" 
+        android:textSize="40sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtCourseTime" 
+        android:textSize="40sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtClassroom" 
+        android:textSize="40sp"
+        />
+    
+    
 
 </LinearLayout>
