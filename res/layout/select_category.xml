@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TextView
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+        android:id="@+id/textview2"
+        android:text="select category"
+        android:textSize="30sp"
+        />
+    
+    <GridLayout 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:columnCount="2"
+    	android:rowCount="2"
+    	android:orientation="horizontal"
+        >
+	   	<Button
+	   	    android:id="@+id/btn_required_major" 
+	   	    android:layout_width="match_parent"
+	   	    android:layout_height="match_parent"
+	   	    android:text="전필"
+	   	    android:textSize="30sp"
+	   	    android:padding="20sp"
+	   	    />
+	    <Button
+	   	    android:id="@+id/btn_elective_major" 
+	   	    android:layout_width="match_parent"
+	   	    android:layout_height="match_parent"
+	   	    android:text="전선"
+	   	    android:textSize="30sp"
+	   	    android:padding="20sp"
+	   	    />
+	    <Button
+	   	    android:id="@+id/btn_required_liberal" 
+	   	    android:layout_width="match_parent"
+	   	    android:layout_height="match_parent"
+	   	    android:text="교필"
+	   	    android:textSize="30sp"
+	   	    android:padding="20sp"
+	   	    />
+	    <Button
+	   	    android:id="@+id/btn_elective_liberal" 
+	   	    android:layout_width="match_parent"
+	   	    android:layout_height="match_parent"
+	   	    android:text="교선"
+	   	    android:textSize="30sp"
+	   	    android:padding="20sp"
+	   	    />
+    </GridLayout>
+    
+</LinearLayout>
