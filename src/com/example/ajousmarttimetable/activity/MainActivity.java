@@ -24,14 +24,14 @@ public class MainActivity extends Activity {
 
 	private StringAdapter mAdapter = null;
 	
-	private static final String TYPEFACE_NAME = "Quicksand-Regular.otf";
+	private static final String TYPEFACE_NAME = "Quicksand-Regular.otf.mp3";
     private Typeface typeface = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		loadTypeface();
 		setContentView(R.layout.main);
+		loadTypeface();
 		
 		// ListView에 아이템 추가
 		String a = new String("Show Timetable");

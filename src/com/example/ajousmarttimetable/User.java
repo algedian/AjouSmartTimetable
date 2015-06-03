@@ -1,20 +1,19 @@
 package com.example.ajousmarttimetable;
 
-public class User {
-	
-	
-	private String UserID;
+public class User {	
+	private String userID;
+	private String userPw;
 
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
 
 	public String getUserID() {
-		return UserID;
+		return userID;
 	}
 
 	public void setUserID(String userID) {
-		UserID = userID;
+		userID = userID;
 	}
 
 

@@ -44,13 +44,13 @@ public class ShowTimetableActivity extends Activity {
 	
 	private GridLayout container;
 	
-	private static final String TYPEFACE_NAME = "Quicksand-Regular.otf";
+	private static final String TYPEFACE_NAME = "Quicksand-Regular.otf.mp3";
     private Typeface typeface = null;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		loadTypeface();
 		setContentView(R.layout.show_timetable);
+		loadTypeface();
 		Intent intent = getIntent();
 		String btnSaveVisible = intent.getExtras().getString("btnSaveVisible");
 		container = (GridLayout)findViewById(R.id.glTimetable);
