@@ -2,14 +2,12 @@ package com.example.ajousmarttimetable.activity;
 
 import java.util.ArrayList;
 
-import com.example.ajousmarttimetable.R;
-import com.example.ajousmarttimetable.R.id;
-import com.example.ajousmarttimetable.R.layout;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +18,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ajousmarttimetable.R;
+
 public class MainActivity extends Activity {
 
 	private StringAdapter mAdapter = null;
-	//jhjhjjhkhkhkoi
+	
+	private static final String TYPEFACE_NAME = "Quicksand-Regular.otf";
+    private Typeface typeface = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		loadTypeface();
 		setContentView(R.layout.main);
 		
 		// ListView에 아이템 추가
@@ -45,15 +49,34 @@ public class MainActivity extends Activity {
         list.add(e);
         list.add(f);
         
-        mAdapter = new StringAdapter(this, R.layout.row , list);
-        		//(getApplicationContext(), R.layout.row ,list);        
+        mAdapter = new StringAdapter(this, R.layout.row , list);      
 		
 		ListView mListView = (ListView)findViewById(R.id.listview);
 		mListView.setAdapter(mAdapter);
 		
 		mListView.setOnItemClickListener(onClickListItem);    		
 	}
-			
+	
+	private void loadTypeface(){
+        if(typeface==null)
+            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
+    }
+	
+	@Override
+    public void setContentView(int viewId) {
+        View view = LayoutInflater.from(this).inflate(viewId, null);
+        ViewGroup group = (ViewGroup)view;
+        int childCnt = group.getChildCount();
+        for(int i=0; i<childCnt; i++){
+            View v = group.getChildAt(i);
+            if(v instanceof TextView){
+                ((TextView)v).setTypeface(typeface);
+                Log.i("setTypeface",v.toString());
+            }
+        }
+        super.setContentView(view);
+    }
+	
 	private class StringAdapter extends ArrayAdapter<String> {
 		 
         private ArrayList<String> list;

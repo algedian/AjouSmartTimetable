@@ -4,15 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" 
     android:rowCount="3"
-    android:columnCount="2">
-	
+    android:columnCount="2"
+    android:id="@+id/glTimetable"
+    android:background="@drawable/white"
+    >
+	<Button
+		    android:layout_width="wrap_content"
+   	    	android:layout_height="wrap_content"
+   	    	android:id="@+id/btnSave"
+   	    	android:text="save"
+   	    	android:visibility="invisible"
+   	    	android:layout_columnSpan="2"
+   	    	android:layout_row="0"
+			android:layout_column="0"
+			android:gravity="right"
+		    /> 
     <GridLayout 
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:rowCount="7"    
     	android:orientation="vertical"
     	android:layout_rowSpan="2"  
-		android:layout_row="0"
+		android:layout_row="1"
 		android:layout_column="0"
         >
 		<TextView 
@@ -50,7 +63,7 @@
     	android:layout_height="wrap_content"
     	android:columnCount="5"
     	android:paddingBottom="5sp"    
-    	android:layout_row="0"
+    	android:layout_row="1"
     	android:layout_column="1"	
         >
 		<TextView 
@@ -80,6 +93,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_row="2"
+		android:layout_column="1"
         >
 		
         <GridView
@@ -91,15 +106,7 @@
 	    android:numColumns="5"
 	    android:listSelector="@drawable/list_selector"
    	    />
-        
-        <Button
-		    android:layout_width="wrap_content"
-   	    	android:layout_height="wrap_content"
-   	    	android:id="@+id/btnSave"
-   	    	android:text="save"
-   	    	android:visibility="invisible"
-   	    	
-		    />  
+         
     </LinearLayout>
    	
    	
