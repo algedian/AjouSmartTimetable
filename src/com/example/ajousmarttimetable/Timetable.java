@@ -29,8 +29,8 @@ public class Timetable {
 		this.setTimetableName(semester);
 		//course 객체로 보내야 하지 않을가 ??
 		//setdefaultflag(true);
-		new TimetableDBAdapter().addTimetable(this);
-		new ServerDBAdapter().setDefaultTimetable(this, UserID);	
+		//new TimetableDBAdapter().addTimetable(this);
+		//new ServerDBAdapter().setDefaultTimetable(this, UserID);	
 	}
 	public ArrayList<Course> getCourses() {
 		return courses;

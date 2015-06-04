@@ -8,24 +8,24 @@ import android.util.Log;
 public class UserDB extends SQLiteOpenHelper {
 
 
-    public UserDB(ServerDBAdapter ServerDBAdapter, Object o, Context context, int i) {
-        super(context, "Timetable.db", null, 1);
+    public UserDB(Context context) {
+        super(context, "User.db", null, 1);
         Log.d("SQLite", "Constructor-ing");
     }
-
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("SQLite", "onCreate-ing");
-        db.execSQL("CREATE TABLE Timetable "
-                + "(UserID TEXT PRIMARY KEY NOT NULL,"
-                + "TimetableName TEXT NOT NULL,"
-                + "Courses TEXT )");
+        db.execSQL("CREATE TABLE User "
+                + "(id TEXT PRIMARY KEY NOT NULL,"
+                + "password TEXT NOT NULL)");
+        db.execSQL("insert into User values('201500001', '201500001')");
+        db.execSQL("insert into User values('201500002', '201500002')");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists UserID");
+        db.execSQL("drop table if exists User");
+        onCreate(db);
     }
 }

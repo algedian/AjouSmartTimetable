@@ -1,33 +1,38 @@
 package com.example.ajousmarttimetable;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-
 import java.util.ArrayList;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 /**
  * Created by kim on 2015-06-02.
  */
 public class ServerDBAdapter {
 
-    private TimetableDB helper;
+    private TimetableDB ttDBhelper;
+    private UserDB userDBhelper;
 
-    public void ServerDBAdapter(Bundle savedInstanceState){
+    
+    public ServerDBAdapter(Context context, String dbName){
         //super.onCreate(savedInstanceState);
-
-        helper = new TimetableDB(this, null , null, 0);
-
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, cards);
-        //setListAdapter(adapter);
+    	if(dbName.equals("TimetableDB")){
+    		ttDBhelper = new TimetableDB(this, null , null, 0);
+    	}
+    	else if(dbName.equals("UserDB")){
+    		userDBhelper = new UserDB(context);
+    	}
     }
+    
 
     public boolean setDefaultTimetable(Timetable timetable,String UserID){
 
         ArrayList<Course> Courses;
         String Fullcourse = "";
         int i = 0;
-        SQLiteDatabase db = helper.getWritableDatabase();
+        SQLiteDatabase db = ttDBhelper.getWritableDatabase();
         Courses = timetable.getCourses();
         Course course = new Course();
         ContentValues values = new ContentValues();
@@ -64,6 +69,26 @@ public class ServerDBAdapter {
         // timetable.add(course);
         //}
         return null;
+    }
+    
+    public boolean verifyLogin(String userId, String userPw){
+    	SQLiteDatabase db = userDBhelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT password FROM User WHERE id='" + userId + "';", null);
+		String getPw="";
+		
+		while (cursor.moveToNext()) {
+			getPw = cursor.getString(0);
+		}
+		
+		if(getPw==null || getPw.equals("")){
+			return false;
+		}
+		else if(getPw.equals(userPw)){
+			return true;
+		}
+		else {
+			return false;
+		}
     }
 
 }

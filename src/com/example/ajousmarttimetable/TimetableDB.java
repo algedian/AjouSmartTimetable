@@ -16,8 +16,6 @@ public class TimetableDB extends SQLiteOpenHelper {
         Log.d("SQLite", "Constructor-ing");
     }
 
-
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d("SQLite", "onCreate-ing");
