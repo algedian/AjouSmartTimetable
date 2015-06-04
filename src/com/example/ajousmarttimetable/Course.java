@@ -4,10 +4,11 @@ public class Course {
 
 	private String professorName;
 	private String courseName;
-	private String time; // Time class ·Î ??
-	private String CourseCode;
+	private String time; 
+	private String courseCode;
 	private String classroom;
 	private Task task;
+	private int credit;
 	
 	public String getProfessorName() {
 		return professorName;
@@ -25,11 +26,11 @@ public class Course {
 	}
 
 	public String getCourseCode() {
-		return CourseCode;
+		return courseCode;
 	}
 
 	public void setCourseCode(String courseCode) {
-		CourseCode = courseCode;
+		courseCode = courseCode;
 	}
 
 	public Task getTask() {
@@ -55,6 +56,13 @@ public class Course {
 	public void setClassroom(String classroom) {
 		this.classroom = classroom;
 	}
+	
+	public int getCredit() {
+		return credit;
+	}
 
+	public void setCredit(int credit) {
+		this.credit = credit;
+	}
 	
 }

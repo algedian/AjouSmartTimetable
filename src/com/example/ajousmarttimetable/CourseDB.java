@@ -10,22 +10,22 @@ import android.util.Log;
  */
 public class CourseDB extends SQLiteOpenHelper {
 
-    public CourseDB(TimetableDBAdapter timetableDBAdapter, Object o, Context context, int i) {
+    public CourseDB(Context context) {
         super(context, "course.db", null, 1);
-        Log.d("SQLite", "Constructor-ing");
+        Log.d("SQLite course", "Constructor-ing");
     }
     public void onCreate(SQLiteDatabase db) {
-        Log.d("SQLite", "onCreate-ing");
-        db.execSQL("CREATE TABLE courses "
-                + "(Coursecode TEXT PRIMARY KEY NOT NULL,"
-                + "CourseName TEXT NOT NULL,"
+        Log.d("SQLite course", "onCreate-ing");
+        db.execSQL("CREATE TABLE course "
+                + "(courseCode TEXT PRIMARY KEY NOT NULL,"
+                + "courseName TEXT NOT NULL,"
                 + "professorName TEXT NOT NULL,"
-                + "classRoom TEXT NOT NULL,"
-                + "Time CHAR[10] NOT NULL"
-                + "Task TEXT)");
+                + "classroom TEXT NOT NULL,"
+                + "time CHAR[10] NOT NULL"
+                + "task TEXT)");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists Cousrscode");
+        db.execSQL("drop table if exists course");
     }
 }

@@ -2,6 +2,7 @@ package com.example.ajousmarttimetable.activity;
 
 import java.util.ArrayList;
 
+import com.example.ajousmarttimetable.ASTHandler;
 import com.example.ajousmarttimetable.R;
 import com.example.ajousmarttimetable.R.layout;
 
@@ -15,13 +16,15 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class CourseDetailActivity extends Activity {
+	
+	ASTHandler handler;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.course_detail);
-		String courseName = "asdf";
-		String profName = "qwerty";
-		String courseTime = "monA wedA";		
-		String classroom = "uiop";
+		handler = ASTHandler.getInstance();
+		
+		//Course 가져오기
 		
 		TextView txtCourseName = (TextView) findViewById(R.id.txtCourseName);
 		txtCourseName.setText(courseName);

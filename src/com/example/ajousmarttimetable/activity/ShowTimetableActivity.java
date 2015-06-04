@@ -2,6 +2,7 @@ package com.example.ajousmarttimetable.activity;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,10 +25,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ajousmarttimetable.ASTHandler;
 import com.example.ajousmarttimetable.R;
 
 public class ShowTimetableActivity extends Activity {
 	
+	ASTHandler handler;
 	DisplayMetrics mMetrics;
 	private Integer[] mThumbIds = { 
 			R.drawable.white, R.drawable.white, R.drawable.white,
@@ -42,6 +45,15 @@ public class ShowTimetableActivity extends Activity {
 			R.drawable.white, R.drawable.white, R.drawable.white
     };
 	
+	private String[] courseName = {
+			"a", "b", "c", "d", "e",
+			"a", "b", "c", "d", "e",
+			"a", "b", "c", "d", "e",
+			"a", "b", "c", "d", "e",
+			"a", "b", "c", "d", "e",
+			"a", "b", "c", "d", "e"
+	};
+	
 	private GridLayout container;
 	
 	private static final String TYPEFACE_NAME = "Quicksand-Regular.otf.mp3";
@@ -50,6 +62,8 @@ public class ShowTimetableActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.show_timetable);
+		
+		handler = ASTHandler.getInstance();
 		loadTypeface();
 		Intent intent = getIntent();
 		String btnSaveVisible = intent.getExtras().getString("btnSaveVisible");
@@ -57,7 +71,7 @@ public class ShowTimetableActivity extends Activity {
 		if(btnSaveVisible == null || btnSaveVisible.equals("")){
 			//nothing 
 		}
-		else if(btnSaveVisible.equals("true")){ //이 버튼때문이라도 액션바를 만들던가 해야지 - - 왜 안보이지
+		else if(btnSaveVisible.equals("true")){ 
 			Button btnSave = (Button)findViewById(R.id.btnSave);
 			btnSave.setVisibility(View.VISIBLE);
 			btnSave.setOnClickListener(btnSaveOnClickListener);
@@ -70,6 +84,13 @@ public class ShowTimetableActivity extends Activity {
 		mMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 	}
+	
+	public void onBackPressed() {
+		finish();
+        Intent intent = new Intent("AST.MAINACTIVITY");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 	
 	private void loadTypeface(){
         if(typeface==null)
@@ -113,7 +134,10 @@ public class ShowTimetableActivity extends Activity {
 		    FileOutputStream fos;
 		    
 		    try {
-		        fos = new FileOutputStream(Environment.getExternalStorageDirectory().toString()+ "/../../sdcard0" + "/capture.jpeg");
+		        fos = new FileOutputStream(
+		        		Environment.getExternalStorageDirectory().toString() 
+		        		+ "/../../sdcard0/Pictures" 
+        				+ "/capture " + new Date() + ".jpeg");
 		        captureView.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 		    } catch (FileNotFoundException e) {
 		        e.printStackTrace();
@@ -144,11 +168,47 @@ public class ShowTimetableActivity extends Activity {
  
         // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent) {
-             
+            /*
+        	LinearLayout layout = new LinearLayout(mContext);
+            layout.setLayoutParams(new GridView.LayoutParams(
+            		android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+            		android.view.ViewGroup.LayoutParams.MATCH_PARENT));
+            layout.setOrientation(LinearLayout.VERTICAL);
             int rowWidth = (mMetrics.widthPixels) / 5;
  
             ImageView imageView;
             if (convertView == null) {
+                imageView = new ImageView(mContext);
+                imageView.setLayoutParams(new LinearLayout.LayoutParams(rowWidth,200));
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            } else {
+                imageView = (ImageView) convertView;
+            }
+            imageView.setImageResource(mThumbIds[position]);
+            
+            TextView txtImage = new TextView(mContext);
+            txtImage.setLayoutParams(new LinearLayout.LayoutParams(
+            		android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+            		android.view.ViewGroup.LayoutParams.MATCH_PARENT));
+            txtImage.setText(courseName[position]);
+            
+            layout.addView(imageView);
+            layout.addView(txtImage);
+            */
+        	LayoutInflater inflater = (LayoutInflater) mContext
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        	
+            ImageView imageView;
+            
+            int rowWidth = (mMetrics.widthPixels) / 5;
+            View gridView;
+            
+            if (convertView == null) {
+	        	gridView = new View(mContext);
+	
+	            // get layout from dashboard_inner.xml
+	            gridView = inflater.inflate(R.layout.gridview_layout, null);
+            	
                 imageView = new ImageView(mContext);
                 imageView.setLayoutParams(new GridView.LayoutParams(rowWidth,200));
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -156,6 +216,7 @@ public class ShowTimetableActivity extends Activity {
                 imageView = (ImageView) convertView;
             }
             imageView.setImageResource(mThumbIds[position]);
+                                    
             return imageView;
         }
     }

@@ -30,7 +30,7 @@
             android:name="com.example.ajousmarttimetable.activity.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
-               
+               	<action android:name="AST.MAINACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -39,8 +39,8 @@
      		android:name="com.example.ajousmarttimetable.activity.ShowTimetableActivity"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="com.example.ajousmarttimetable.SHOW_TIMETABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
+                
+				<category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         
@@ -56,49 +56,22 @@
             android:name="com.example.ajousmarttimetable.activity.MakeTimetableActivity"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="com.example.ajousmarttimetable.MAKE_TIMETABLE" />
+                
              	<category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        
-        <activity
-            android:name="com.example.ajousmarttimetable.activity.ModifyTimetableActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.example.ajousmarttimetable.MODIFY_TIMETABLE" />
-             	<category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        
-        <activity
-            android:name="com.example.ajousmarttimetable.activity.DeleteTimetableActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.example.ajousmarttimetable.DELETE_TIMETABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        </activity>        
         
         <activity
             android:name="com.example.ajousmarttimetable.activity.ShowOthersTimetableActivity"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="com.example.ajousmarttimetable.SHOW_OTHERS_TIMETABLE" />
+                
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         
         <activity
-            android:name="com.example.ajousmarttimetable.activity.SettingsActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="com.example.ajousmarttimetable.activity.SETTINGS" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>        
-        
-        <activity
-            android:name="com.example.ajousmarttimetable.activity.MyPrint"
+            android:name="com.example.ajousmarttimetable.activity.GridViewLayout"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.example.ajousmarttimetable.MYPRINT" />

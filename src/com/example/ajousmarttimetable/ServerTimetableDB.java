@@ -8,21 +8,21 @@ import android.util.Log;
 /**
  * Created by kim on 2015-06-03.
  */
-public class TimetableDB extends SQLiteOpenHelper { // user's tt
+public class ServerTimetableDB extends SQLiteOpenHelper { // server's tt
 
-    public TimetableDB(Context context) {
-        super(context, "timetable.db", null, 1);
-        Log.d("SQLite ttdb", "Constructor-ing");
+
+    public ServerTimetableDB(Context context) {
+        super(context, "serverTimetable.db", null, 1);
+        Log.d("SQLite sv ttdb", "Constructor-ing");
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("SQLite ttdb", "onCreate-ing");
-        db.execSQL("CREATE TABLE timetable "
+        Log.d("SQLite sv ttdb", "onCreate-ing");
+        db.execSQL("CREATE TABLE serverTimetable "
                 + "(userId TEXT PRIMARY KEY NOT NULL,"
                 + "timetableName TEXT NOT NULL,"
-                + "courses TEXT, "
-                + "defaultFlag INT NOT NULL)"); //1 - default
+                + "courses TEXT)"); 
     }
 
     @Override

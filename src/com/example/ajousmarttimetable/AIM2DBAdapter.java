@@ -4,12 +4,11 @@ import java.util.ArrayList;
 
 public class AIM2DBAdapter {
 	
-	private  String UserID;
+	private String UserID;	
 	
-	
-	public Datatype getUserInfo(String userID){
+	public UserInfo getUserInfo(String userID){
 		this.UserID = userID;
-		Datatype data = new Datatype();
+		UserInfo data = new UserInfo();
 		data.setMajor(""); // aim2에서 받아오는 것들 저장
 		data.setSemester(""); // aim2에서 받아오는 것들 저장
 		//data.addCourse(course); // aim2에서 받아오는 것들 저장
@@ -18,16 +17,10 @@ public class AIM2DBAdapter {
 		return data;
 		
 	}
-	public ArrayList<Course> getCourses(String UserID){
+	public static ArrayList<Course> getCourses(String UserID){
 		
 		ArrayList<Course> courses = new ArrayList<Course>();
-		Course course = new Course();
-		//while(rs.next()){
-			
-		//	cousre . set
-		//}
-		
-		
+		Course course = new Course();		
 		
 		return courses;
 	}

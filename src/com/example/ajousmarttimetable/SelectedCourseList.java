@@ -1,7 +1,7 @@
 package com.example.ajousmarttimetable;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class SelectedCourseList {
-	List<Course> list;
+public class SelectedCourseList extends ArrayList<Course>{
+	
 }

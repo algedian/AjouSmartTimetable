@@ -3,6 +3,7 @@ package com.example.ajousmarttimetable;
 public class Task {
 	String content;
 	String dueDate;
+	
 	public String getContent() {
 		return content;
 	}

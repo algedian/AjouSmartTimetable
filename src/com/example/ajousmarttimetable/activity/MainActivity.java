@@ -18,10 +18,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ajousmarttimetable.ASTHandler;
 import com.example.ajousmarttimetable.R;
 
 public class MainActivity extends Activity {
 
+	ASTHandler handler;
 	private StringAdapter mAdapter = null;
 	
 	private static final String TYPEFACE_NAME = "Quicksand-Regular.otf.mp3";
@@ -31,6 +33,11 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		handler = ASTHandler.getInstance();
+		if(LogInActivity.logInActivity != null){
+			LogInActivity.logInActivity.finish();
+		}
 		loadTypeface();
 		
 		// ListView에 아이템 추가
@@ -110,38 +117,40 @@ public class MainActivity extends Activity {
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
            switch(arg2){
         	case 0:{
-        		Intent i = new Intent("com.example.ajousmarttimetable.SHOW_TIMETABLE");
-        		i.putExtra("btnSaveVisible", "false");
-                startActivity(i);
+        		Intent intent = new Intent(MainActivity.this, ShowTimetableActivity.class);
+        		intent.putExtra("btnSaveVisible", "false");
+                startActivity(intent);
         		}
         		break;
         	case 1:{
-        		Intent i = new Intent("com.example.ajousmarttimetable.MAKE_TIMETABLE");
-                startActivity(i);
+        		Intent intent = new Intent(MainActivity.this, MakeTimetableActivity.class);
+                startActivity(intent);
         		}
         		break;
         	case 2:{
-        		Intent i = new Intent("com.example.ajousmarttimetable.MODIFY_TIMETABLE");
-                startActivity(i);
+        		//Intent intent = new Intent(MainActivity.this, ModifyTimetableActivity.class);
+                //startActivity(intent);
+        		Toast.makeText(getApplicationContext(), "yet implement!", Toast.LENGTH_SHORT).show();
         		}
         		break;
         	case 3:{
-        		Intent i = new Intent("com.example.ajousmarttimetable.DELETE_TIMETABLE");
-                startActivity(i);
+        		//Intent intent = new Intent(MainActivity.this, DeleteTimetableActivity.class);
+                //startActivity(intent);
+        		Toast.makeText(getApplicationContext(), "yet implement!", Toast.LENGTH_SHORT).show();
         		}
         		break;
         	case 4:{
-        		Intent i = new Intent("com.example.ajousmarttimetable.SHOW_OTHERS_TIMETABLE");
-                startActivity(i);
+        		Intent intent = new Intent(MainActivity.this, ShowOthersTimetableActivity.class);
+                startActivity(intent);
         		}
         		break;
         	case 5:{
-        		Intent i = new Intent("com.example.ajousmarttimetable.SETTINGS");
-                startActivity(i);
+        		//Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                //startActivity(intent);
+        		Toast.makeText(getApplicationContext(), "yet implement!", Toast.LENGTH_SHORT).show();
         		}
         		break;
         	}
-        	Toast.makeText(MainActivity.this, mAdapter.getItem(arg2) , Toast.LENGTH_SHORT).show();
-        }
+         }
     };
 }

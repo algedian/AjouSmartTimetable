@@ -9,23 +9,23 @@ public class UserDB extends SQLiteOpenHelper {
 
 
     public UserDB(Context context) {
-        super(context, "User.db", null, 1);
-        Log.d("SQLite", "Constructor-ing");
+        super(context, "user.db", null, 1);
+        Log.d("SQLite userdb", "Constructor-ing");
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.d("SQLite", "onCreate-ing");
-        db.execSQL("CREATE TABLE User "
-                + "(id TEXT PRIMARY KEY NOT NULL,"
-                + "password TEXT NOT NULL)");
-        db.execSQL("insert into User values('201500001', '201500001')");
-        db.execSQL("insert into User values('201500002', '201500002')");
+        Log.d("SQLite userdb", "onCreate-ing");
+        db.execSQL("CREATE TABLE user (id TEXT PRIMARY KEY NOT NULL, "
+                + "password TEXT NOT NULL, "
+                + "isOpen TEXT NOT NULL)"); //yes or no
+        db.execSQL("INSERT INTO user VALUES('201500001', '201500001')");
+        db.execSQL("INSERT INTO user VALUES('201500002', '201500002')");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists User");
+        db.execSQL("drop table if exists user");
         onCreate(db);
     }
 }

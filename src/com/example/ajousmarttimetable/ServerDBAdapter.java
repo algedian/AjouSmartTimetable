@@ -6,33 +6,30 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 /**
  * Created by kim on 2015-06-02.
  */
 public class ServerDBAdapter {
 
-    private TimetableDB ttDBhelper;
+    private ServerTimetableDB serverTtDBhelper;
     private UserDB userDBhelper;
-
+    private CourseDB courseDBhelper;
     
     public ServerDBAdapter(Context context, String dbName){
-        //super.onCreate(savedInstanceState);
-    	if(dbName.equals("TimetableDB")){
-    		ttDBhelper = new TimetableDB(this, null , null, 0);
-    	}
-    	else if(dbName.equals("UserDB")){
-    		userDBhelper = new UserDB(context);
-    	}
-    }
-    
+    	serverTtDBhelper = new ServerTimetableDB(context);
+    	userDBhelper = new UserDB(context);
+    	courseDBhelper = new CourseDB(context);
+    }    
 
+    //여기보기
     public boolean setDefaultTimetable(Timetable timetable,String UserID){
 
         ArrayList<Course> Courses;
         String Fullcourse = "";
         int i = 0;
-        SQLiteDatabase db = ttDBhelper.getWritableDatabase();
+        SQLiteDatabase db = serverTtDBhelper.getWritableDatabase();
         Courses = timetable.getCourses();
         Course course = new Course();
         ContentValues values = new ContentValues();
@@ -51,34 +48,90 @@ public class ServerDBAdapter {
 
         return true;
     }
+    
+    //여기보기
+    public ArrayList<Course> getAllCourses(){ //전체 코드 가져오기
+    	ArrayList<Course> courseList = new ArrayList<Course>();
+    	
+    	SQLiteDatabase db = serverTtDBhelper.getReadableDatabase();
+		//Cursor cursor = db.rawQuery("SELECT * FROM serverTimetable " + "WHERE serverTimetable.userId='" + userId + "';", null);
+		    	
+    	return  courseList;
+    }
+    
     public boolean deleteTimetable(String semester,String UserID){
 
         return true;
     }
-
+	
+    //여기보기
     public boolean checkPermisson(String userID) {
-        // TODO Auto-generated method stub // db에서 유저가 허락했는 지 확인
+        
         return false;
     }
-
-    public Timetable getTimetable(String userID) {
-        // TODO Auto-generated method stub // db에서 유저 course 들을 가져와야됨
-        //while(rs.next()){
-
-        //	course.set
-        // timetable.add(course);
-        //}
-        return null;
-    }
+    
+    public Timetable getDefaultTimetable(String userId){
+		Timetable timetable = new Timetable();
+		ArrayList<String> courseCodeList = null;
+		
+		SQLiteDatabase db = serverTtDBhelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT timetableName FROM serverTimetable "
+				+ "WHERE serverTimetable.userId='" + userId + "';", null);
+		
+		Log.d("server db","1");
+		if(cursor != null && cursor.getCount() > 0){		
+			Log.d("server db","2");
+			timetable.setTimetableName(cursor.getString(0));
+			
+			cursor = db.rawQuery("SELECT courses FROM serverTimetable "
+					+ "WHERE serverTimetable.userId='" + userId + "';", null);
+			
+			Log.d("server db","3");
+			String courses = cursor.getString(0);
+			
+			Log.d("server db","4");
+			for(int i=0 ; i<courses.length() ; i+=2){
+				String tmpstr = "";
+				tmpstr += courses.substring(i, i+1);
+				courseCodeList.add(tmpstr);
+			}		
+			
+			Log.d("server db","5");
+			if(courseCodeList != null){
+				for(int i=0 ; i<courseCodeList.size() ; i++){
+					db = courseDBhelper.getReadableDatabase();
+					cursor = db.rawQuery("SELECT * FROM course "
+							+ "WHERE course.courseCode='" + courseCodeList.get(i) + "';", null);
+					while(cursor.moveToNext()){
+						Course tmp = new Course();
+						tmp.setCourseCode(cursor.getString(0));
+						tmp.setCourseName(cursor.getString(1));
+						tmp.setProfessorName(cursor.getString(2));
+						tmp.setClassroom(cursor.getString(3));
+						tmp.setTime(cursor.getString(4));	
+						
+						timetable.addCourse(tmp);
+					}			
+				}
+			}
+			cursor.close();	
+			return timetable;
+		}
+		else{
+			Log.d("server db","6");
+			return null;			
+		}
+	}
     
     public boolean verifyLogin(String userId, String userPw){
     	SQLiteDatabase db = userDBhelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery("SELECT password FROM User WHERE id='" + userId + "';", null);
+		Cursor cursor = db.rawQuery("SELECT password FROM user WHERE user.id='" + userId + "';", null);
 		String getPw="";
 		
 		while (cursor.moveToNext()) {
 			getPw = cursor.getString(0);
 		}
+		cursor.close();
 		
 		if(getPw==null || getPw.equals("")){
 			return false;
@@ -88,7 +141,7 @@ public class ServerDBAdapter {
 		}
 		else {
 			return false;
-		}
+		}		
     }
 
 }
