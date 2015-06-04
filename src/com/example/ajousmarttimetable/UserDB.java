@@ -19,8 +19,8 @@ public class UserDB extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE user (id TEXT PRIMARY KEY NOT NULL, "
                 + "password TEXT NOT NULL, "
                 + "isOpen TEXT NOT NULL)"); //yes or no
-        db.execSQL("INSERT INTO user VALUES('201500001', '201500001')");
-        db.execSQL("INSERT INTO user VALUES('201500002', '201500002')");
+        db.execSQL("INSERT INTO user VALUES('201500001', '201500001', 'yes')");
+        db.execSQL("INSERT INTO user VALUES('201500002', '201500002', 'yes')");
     }
 
     @Override

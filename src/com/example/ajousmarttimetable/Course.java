@@ -8,7 +8,7 @@ public class Course {
 	private String courseCode;
 	private String classroom;
 	private Task task;
-	private int credit;
+	private String credit;
 	
 	public String getProfessorName() {
 		return professorName;
@@ -57,11 +57,11 @@ public class Course {
 		this.classroom = classroom;
 	}
 	
-	public int getCredit() {
+	public String getCredit() {
 		return credit;
 	}
 
-	public void setCredit(int credit) {
+	public void setCredit(String credit) {
 		this.credit = credit;
 	}
 	

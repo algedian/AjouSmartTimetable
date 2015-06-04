@@ -2,6 +2,7 @@ package com.example.ajousmarttimetable.activity;
 
 import java.util.ArrayList;
 
+import android.R.color;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -20,10 +21,12 @@ import android.widget.Toast;
 import com.example.ajousmarttimetable.ASTHandler;
 import com.example.ajousmarttimetable.Course;
 import com.example.ajousmarttimetable.R;
+import com.example.ajousmarttimetable.ServerDBAdapter;
 
 public class MakeTimetableActivity extends Activity implements View.OnClickListener{
 	
 	ASTHandler handler;
+	ServerDBAdapter serverDBadapter;
 	TextView txtSelectCategory;
 	Button btnRM;
 	Button btnEM;
@@ -43,6 +46,7 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
 		setContentView(R.layout.make_timetable);
 		
 		handler = ASTHandler.getInstance();
+		
 		txtSelectCategory = (TextView)findViewById(R.id.txtSelectCategory);
 		btnRM = (Button)findViewById(R.id.btnRequiredMajor);
 		btnEM = (Button)findViewById(R.id.btnElectiveMajor);
@@ -62,10 +66,11 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
 		selectedCourseList = new ArrayList<Course>();
 		
 		//courseList에 코스 가져오기
+		serverDBadapter = new ServerDBAdapter(getApplicationContext());
+		classifiedCourseList = serverDBadapter.getAllCourses("RM");
         mAdapter = new CourseAdapter(this, R.layout.makett_row , classifiedCourseList);       		
 		listCategory.setAdapter(mAdapter);		
-		listCategory.setOnItemClickListener(onClickListItem);    	
-	
+		listCategory.setOnItemClickListener(onClickListItem);  	
 	}
 	
 	public void onBackPressed() {
@@ -84,6 +89,7 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
 				listCategory.setVisibility(View.VISIBLE);
 				
 				//courseList에 코스 가져오기
+				classifiedCourseList = serverDBadapter.getAllCourses("RM");
 		        mAdapter = new CourseAdapter(this, R.layout.makett_row , classifiedCourseList);       		
 				listCategory.setAdapter(mAdapter);		
 				listCategory.setOnItemClickListener(onClickListItem); 
@@ -96,6 +102,7 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
 				listCategory.setVisibility(View.VISIBLE);
 				
 				//courseList에 코스 가져오기
+				classifiedCourseList = serverDBadapter.getAllCourses("EM");
 		        mAdapter = new CourseAdapter(this, R.layout.makett_row , classifiedCourseList);       		
 				listCategory.setAdapter(mAdapter);		
 				listCategory.setOnItemClickListener(onClickListItem); 
@@ -108,6 +115,7 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
 				listCategory.setVisibility(View.VISIBLE);
 				
 				//courseList에 코스 가져오기
+				classifiedCourseList = serverDBadapter.getAllCourses("RL");
 		        mAdapter = new CourseAdapter(this, R.layout.makett_row , classifiedCourseList);       		
 				listCategory.setAdapter(mAdapter);		
 				listCategory.setOnItemClickListener(onClickListItem); 
@@ -120,6 +128,7 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
 				listCategory.setVisibility(View.VISIBLE);
 				
 				//courseList에 코스 가져오기
+				classifiedCourseList = serverDBadapter.getAllCourses("EL");
 		        mAdapter = new CourseAdapter(this, R.layout.makett_row , classifiedCourseList);       		
 				listCategory.setAdapter(mAdapter);		
 				listCategory.setOnItemClickListener(onClickListItem); 
@@ -140,12 +149,13 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
             super(context, textViewResourceId, list);
             this.list = list;
         }
+                       
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.row, null);
+                v = vi.inflate(R.layout.makett_row, null);
             }            
             Course course = list.get(position);
             if (course != null) {
@@ -177,11 +187,13 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
 	// 아이템 터치 이벤트
     private OnItemClickListener onClickListItem = new OnItemClickListener() { 
         @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+        public void onItemClick(AdapterView<?> arg0, View v, int arg2, long arg3) {
             // 이벤트 발생 시 해당 아이템 위치의 텍스트를 출력
-            //Intent i = new Intent("com.example.smartparking.ParkingLotDetail.SHOW_WEBPAGE");
-        	//i.putExtra("parkingLotName", mAdapter.getItem(arg2).toString());
-            //startActivity(i);
+        	
+        	//enable/disable toggle
+        	int currentCredit = Integer.parseInt(txtCurrentCredit.getText().toString());        	
+        	currentCredit += Integer.parseInt(mAdapter.getItem(arg2).getCredit());
+        	txtCurrentCredit.setText(String.valueOf(currentCredit));
         	
         	Toast.makeText(getApplicationContext(), mAdapter.getItem(arg2).getCourseName() , Toast.LENGTH_SHORT).show();
         }

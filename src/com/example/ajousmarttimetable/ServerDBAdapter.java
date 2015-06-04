@@ -16,11 +16,13 @@ public class ServerDBAdapter {
     private ServerTimetableDB serverTtDBhelper;
     private UserDB userDBhelper;
     private CourseDB courseDBhelper;
+    private AllCourseDB allcourseDBhelper;
     
-    public ServerDBAdapter(Context context, String dbName){
+    public ServerDBAdapter(Context context){
     	serverTtDBhelper = new ServerTimetableDB(context);
     	userDBhelper = new UserDB(context);
     	courseDBhelper = new CourseDB(context);
+    	allcourseDBhelper = new AllCourseDB(context);
     }    
 
     //여기보기
@@ -50,12 +52,31 @@ public class ServerDBAdapter {
     }
     
     //여기보기
-    public ArrayList<Course> getAllCourses(){ //전체 코드 가져오기
+    public ArrayList<Course> getAllCourses(String category){ //전체 코드 가져오기
     	ArrayList<Course> courseList = new ArrayList<Course>();
     	
-    	SQLiteDatabase db = serverTtDBhelper.getReadableDatabase();
-		//Cursor cursor = db.rawQuery("SELECT * FROM serverTimetable " + "WHERE serverTimetable.userId='" + userId + "';", null);
-		    	
+    	SQLiteDatabase db = allcourseDBhelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery("SELECT courseCode, courseName, professorName, time, classroom, credit"
+				+ " FROM AllCourses " + "WHERE AllCourses.category='" + category + "';", null);
+		Log.d("allcourse cursor "," "+cursor.getCount());
+		
+		while(cursor.moveToNext()){
+			Course tmp = new Course();
+			tmp.setCourseCode(cursor.getString(0));
+			
+			tmp.setCourseName(cursor.getString(1));
+			Log.d("tmp",cursor.getString(1));
+			
+			tmp.setProfessorName(cursor.getString(2));
+			Log.d("tmp",cursor.getString(2));
+			
+			tmp.setTime(cursor.getString(3));
+			
+			tmp.setClassroom(cursor.getString(4));
+			
+			tmp.setCredit(cursor.getString(5));
+			courseList.add(tmp);
+		}
     	return  courseList;
     }
     
@@ -78,25 +99,25 @@ public class ServerDBAdapter {
 		Cursor cursor = db.rawQuery("SELECT timetableName FROM serverTimetable "
 				+ "WHERE serverTimetable.userId='" + userId + "';", null);
 		
-		Log.d("server db","1");
+		
 		if(cursor != null && cursor.getCount() > 0){		
-			Log.d("server db","2");
+			
 			timetable.setTimetableName(cursor.getString(0));
 			
 			cursor = db.rawQuery("SELECT courses FROM serverTimetable "
 					+ "WHERE serverTimetable.userId='" + userId + "';", null);
 			
-			Log.d("server db","3");
+			
 			String courses = cursor.getString(0);
 			
-			Log.d("server db","4");
+			
 			for(int i=0 ; i<courses.length() ; i+=2){
 				String tmpstr = "";
 				tmpstr += courses.substring(i, i+1);
 				courseCodeList.add(tmpstr);
 			}		
 			
-			Log.d("server db","5");
+			
 			if(courseCodeList != null){
 				for(int i=0 ; i<courseCodeList.size() ; i++){
 					db = courseDBhelper.getReadableDatabase();
@@ -114,11 +135,9 @@ public class ServerDBAdapter {
 					}			
 				}
 			}
-			cursor.close();	
 			return timetable;
 		}
 		else{
-			Log.d("server db","6");
 			return null;			
 		}
 	}
@@ -131,7 +150,6 @@ public class ServerDBAdapter {
 		while (cursor.moveToNext()) {
 			getPw = cursor.getString(0);
 		}
-		cursor.close();
 		
 		if(getPw==null || getPw.equals("")){
 			return false;

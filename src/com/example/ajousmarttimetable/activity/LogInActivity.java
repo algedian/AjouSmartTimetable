@@ -41,7 +41,7 @@ public class LogInActivity extends Activity implements View.OnClickListener{
 		btnLogin.setOnClickListener(this);
 		btnSignUp.setOnClickListener(this);
 		
-		serverDBadapter = new ServerDBAdapter(LogInActivity.this, "UserDB");		
+		serverDBadapter = new ServerDBAdapter(getApplicationContext());		
 	}
 	
 	protected void onResume(Bundle savedInstanceState){

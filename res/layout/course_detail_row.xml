@@ -11,7 +11,7 @@
 	        android:textSize="20sp"/>
         <TextView
             android:layout_width="fill_parent"
-            android:id="@+id/professorName"
+            android:id="@+id/classroom"
             android:singleLine="true"
             android:ellipsize="marquee"
        		android:layout_height="wrap_content"/>

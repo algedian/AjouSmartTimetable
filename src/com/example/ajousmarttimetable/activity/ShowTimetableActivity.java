@@ -46,12 +46,12 @@ public class ShowTimetableActivity extends Activity {
     };
 	
 	private String[] courseName = {
-			"a", "b", "c", "d", "e",
-			"a", "b", "c", "d", "e",
-			"a", "b", "c", "d", "e",
-			"a", "b", "c", "d", "e",
-			"a", "b", "c", "d", "e",
-			"a", "b", "c", "d", "e"
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e"
 	};
 	
 	private GridLayout container;
@@ -212,12 +212,16 @@ public class ShowTimetableActivity extends Activity {
                 imageView = new ImageView(mContext);
                 imageView.setLayoutParams(new GridView.LayoutParams(rowWidth,200));
                 imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageView.setImageResource(mThumbIds[position]);
+                
+                TextView textView = (TextView)findViewById(R.id.txtImage);
+                if(textView!=null){
+                    textView.setText(courseName[position]);
+                }
             } else {
-                imageView = (ImageView) convertView;
-            }
-            imageView.setImageResource(mThumbIds[position]);
-                                    
-            return imageView;
+                gridView = (View) convertView;
+            }                                                
+            return gridView;
         }
     }
 }

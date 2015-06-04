@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.example.ajousmarttimetable.ASTHandler;
 import com.example.ajousmarttimetable.R;
 import com.example.ajousmarttimetable.R.layout;
+import com.example.ajousmarttimetable.ServerDBAdapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,14 +19,16 @@ import android.widget.TextView;
 public class CourseDetailActivity extends Activity {
 	
 	ASTHandler handler;
+	ServerDBAdapter serverDBadapter;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.course_detail);
 		handler = ASTHandler.getInstance();
+		serverDBadapter = new ServerDBAdapter(getApplicationContext());
 		
-		//Course 가져오기
-		
+		/*
+		//코스 각 과목 가져오기
 		TextView txtCourseName = (TextView) findViewById(R.id.txtCourseName);
 		txtCourseName.setText(courseName);
 		TextView txtProfName = (TextView) findViewById(R.id.txtProfName);
@@ -34,6 +37,7 @@ public class CourseDetailActivity extends Activity {
 		txtCourseTime.setText(courseTime);
 		TextView txtClassroom = (TextView) findViewById(R.id.txtClassroom);	
 		txtClassroom.setText(classroom);
+		*/
 					
 	}
 	/*

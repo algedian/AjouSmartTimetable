@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
         
         mAdapter = new StringAdapter(this, R.layout.row , list);      
 		
-		ListView mListView = (ListView)findViewById(R.id.listview);
+		ListView mListView = (ListView)findViewById(R.id.listMain);
 		mListView.setAdapter(mAdapter);
 		
 		mListView.setOnItemClickListener(onClickListItem);    		
