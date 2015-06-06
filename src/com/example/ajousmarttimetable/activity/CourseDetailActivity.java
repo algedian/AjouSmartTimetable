@@ -2,19 +2,20 @@ package com.example.ajousmarttimetable.activity;
 
 import java.util.ArrayList;
 
-import com.example.ajousmarttimetable.ASTHandler;
-import com.example.ajousmarttimetable.R;
-import com.example.ajousmarttimetable.R.layout;
-import com.example.ajousmarttimetable.ServerDBAdapter;
-
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.ajousmarttimetable.ASTHandler;
+import com.example.ajousmarttimetable.Course;
+import com.example.ajousmarttimetable.R;
+import com.example.ajousmarttimetable.ServerDBAdapter;
 
 public class CourseDetailActivity extends Activity {
 	
@@ -27,20 +28,18 @@ public class CourseDetailActivity extends Activity {
 		handler = ASTHandler.getInstance();
 		serverDBadapter = new ServerDBAdapter(getApplicationContext());
 		
-		/*
-		//코스 각 과목 가져오기
+		Intent intent = getIntent();
+		
 		TextView txtCourseName = (TextView) findViewById(R.id.txtCourseName);
-		txtCourseName.setText(courseName);
+		txtCourseName.setText(intent.getExtras().getString("courseName"));
 		TextView txtProfName = (TextView) findViewById(R.id.txtProfName);
-		txtProfName.setText(profName);
+		txtProfName.setText(intent.getExtras().getString("profName"));
 		TextView txtCourseTime = (TextView) findViewById(R.id.txtCourseTime);
-		txtCourseTime.setText(courseTime);
+		txtCourseTime.setText(intent.getExtras().getString("courseTime"));
 		TextView txtClassroom = (TextView) findViewById(R.id.txtClassroom);	
-		txtClassroom.setText(classroom);
-		*/
-					
+		txtClassroom.setText(intent.getExtras().getString("classroom"));			
 	}
-	/*
+	
 	private class CourseAdapter extends ArrayAdapter<Course> {
 		 
         private ArrayList<Course> list;
@@ -54,7 +53,7 @@ public class CourseDetailActivity extends Activity {
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.row2, null);
+                v = vi.inflate(R.layout.course_detail_row, null);
             }
             
             Course c = list.get(position);
@@ -63,7 +62,7 @@ public class CourseDetailActivity extends Activity {
                 TextView cProf = (TextView) v.findViewById(R.id.professorName);
                 TextView cTime = (TextView) v.findViewById(R.id.courseTime);
                 if(cName != null){
-                    cName.setText(c.getName());                            
+                    cName.setText(c.getCourseName());                            
                 }
                 if(cProf != null){
                     cProf.setText(c.getProfessorName());
@@ -75,5 +74,5 @@ public class CourseDetailActivity extends Activity {
             return v;
         }
 	}
-	*/
+	
 }

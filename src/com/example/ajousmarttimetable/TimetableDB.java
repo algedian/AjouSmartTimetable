@@ -23,6 +23,9 @@ public class TimetableDB extends SQLiteOpenHelper { // user's tt
                 + "timetableName TEXT NOT NULL,"
                 + "courses TEXT, "
                 + "defaultFlag INT NOT NULL)"); //1 - default
+        
+        db.execSQL("INSERT INTO timetable VALUES('201500002',"
+        		+ "'2015-1-1','072021009270056050','1')");
     }
 
     @Override

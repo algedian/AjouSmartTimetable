@@ -58,7 +58,6 @@ public class ServerDBAdapter {
     	SQLiteDatabase db = allcourseDBhelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery("SELECT courseCode, courseName, professorName, time, classroom, credit"
 				+ " FROM AllCourses " + "WHERE AllCourses.category='" + category + "';", null);
-		Log.d("allcourse cursor "," "+cursor.getCount());
 		
 		while(cursor.moveToNext()){
 			Course tmp = new Course();

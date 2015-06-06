@@ -3,15 +3,16 @@ package com.example.ajousmarttimetable.activity;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,29 +22,18 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ajousmarttimetable.ASTHandler;
+import com.example.ajousmarttimetable.Course;
 import com.example.ajousmarttimetable.R;
+import com.example.ajousmarttimetable.TimetableDBAdapter;
 
 public class ShowTimetableActivity extends Activity {
 	
 	ASTHandler handler;
-	DisplayMetrics mMetrics;
-	private Integer[] mThumbIds = { 
-			R.drawable.white, R.drawable.white, R.drawable.white,
-			R.drawable.white, R.drawable.white, R.drawable.white,
-			R.drawable.white, R.drawable.white, R.drawable.white,
-			R.drawable.white, R.drawable.white, R.drawable.white,
-			R.drawable.white, R.drawable.white, R.drawable.white,
-			R.drawable.white, R.drawable.white, R.drawable.white,
-			R.drawable.white, R.drawable.white, R.drawable.white,
-			R.drawable.white, R.drawable.white, R.drawable.white,
-			R.drawable.white, R.drawable.white, R.drawable.white,
-			R.drawable.white, R.drawable.white, R.drawable.white
-    };
+	TimetableDBAdapter ttDBadapter;
 	
 	private String[] courseName = {
 		"a", "b", "c", "d", "e",
@@ -55,18 +45,26 @@ public class ShowTimetableActivity extends Activity {
 	};
 	
 	private GridLayout container;
-	
-	private static final String TYPEFACE_NAME = "Quicksand-Regular.otf.mp3";
-    private Typeface typeface = null;
+	private List<ResolveInfo> apps;
+	private PackageManager pm;
+	Activity act = this;
+	GridView gridview;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.show_timetable);
 		
 		handler = ASTHandler.getInstance();
-		loadTypeface();
+		ttDBadapter = new TimetableDBAdapter(getApplicationContext());
 		Intent intent = getIntent();
 		String btnSaveVisible = intent.getExtras().getString("btnSaveVisible");
+		
+		pm = getPackageManager();
+		apps = pm.queryIntentActivities(intent, 0);
+		
+		gridview = (GridView) findViewById(R.id.gridview);
+		gridview.setAdapter(new GridAdapter(this));
+		gridview.setOnItemClickListener(gridviewOnItemClickListener);
 		container = (GridLayout)findViewById(R.id.glTimetable);
 		if(btnSaveVisible == null || btnSaveVisible.equals("")){
 			//nothing 
@@ -77,12 +75,6 @@ public class ShowTimetableActivity extends Activity {
 			btnSave.setOnClickListener(btnSaveOnClickListener);
 		}
 		
-		GridView gridview = (GridView) findViewById(R.id.gridview);
-		gridview.setAdapter(new ImageAdapter(this));
-		gridview.setOnItemClickListener(gridviewOnItemClickListener);
-		
-		mMetrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
 	}
 	
 	public void onBackPressed() {
@@ -92,35 +84,17 @@ public class ShowTimetableActivity extends Activity {
         startActivity(intent);
     }
 	
-	private void loadTypeface(){
-        if(typeface==null)
-            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
-    }
-	
-	@Override
-    public void setContentView(int viewId) {
-        View view = LayoutInflater.from(this).inflate(viewId, null);
-        ViewGroup group = (ViewGroup)view;
-        int childCnt = group.getChildCount();
-        for(int i=0; i<childCnt; i++){
-            View v = group.getChildAt(i);
-            if(v instanceof TextView){
-                ((TextView)v).setTypeface(typeface);
-                Log.i("setTypeface",v.toString());
-            }
-        }
-        super.setContentView(view);
-    }
-	
-
 	private GridView.OnItemClickListener gridviewOnItemClickListener 
 	    = new GridView.OnItemClickListener() {
 	     
-	    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-	            long arg3) {
+	    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 	    	Intent intent = new Intent(ShowTimetableActivity.this, CourseDetailActivity.class);
+	    	Course c = ttDBadapter.getCoursesByCourseName(courseName[arg2]);
+	    	intent.putExtra("courseName", c.getCourseName());
+	    	intent.putExtra("profName", c.getProfessorName());
+	    	intent.putExtra("courseTime", c.getTime());
+	    	intent.putExtra("classroom", c.getClassroom());
 	    	startActivity(intent);
-	        //Toast.makeText(ShowTimetableActivity.this, arg0.getAdapter().getItem(arg2).toString(), Toast.LENGTH_SHORT).show();
 	    }
 	};
 	
@@ -134,94 +108,54 @@ public class ShowTimetableActivity extends Activity {
 		    FileOutputStream fos;
 		    
 		    try {
-		        fos = new FileOutputStream(
+		    	String filename = "/../../sdcard0/Pictures" + "capture" + new Date();
+		    	fos = new FileOutputStream(
 		        		Environment.getExternalStorageDirectory().toString() 
-		        		+ "/../../sdcard0/Pictures" 
-        				+ "/capture " + new Date() + ".jpeg");
+		        		+ filename + ".jpeg");
 		        captureView.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+		        Toast.makeText(getApplicationContext(), "Captured! " + Environment.getExternalStorageDirectory().toString() 
+		        		+ filename + ".jpeg" , Toast.LENGTH_SHORT).show();
 		    } catch (FileNotFoundException e) {
 		        e.printStackTrace();
 		    }
 		    v.setVisibility(View.VISIBLE);
-		    Toast.makeText(getApplicationContext(), "Captured! " + Environment.getExternalStorageDirectory().toString() + "/../../sdcard0/", Toast.LENGTH_LONG).show();
+		    
 		}
 	};
 	
-	public class ImageAdapter extends BaseAdapter {
+	public class GridAdapter extends BaseAdapter {
         private Context mContext;
+        LayoutInflater inflater;
  
-        public ImageAdapter(Context c) {
-            mContext = c;
+        public GridAdapter(Context c) {
+            inflater = (LayoutInflater) act
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);        	
         }
  
         public int getCount() {
-            return mThumbIds.length;
+            return apps.size();
         }
  
         public Object getItem(int position) {
-            return mThumbIds[position];
+            return apps.get(position);
         }
  
         public long getItemId(int position) {
             return position;
         }
  
-        // create a new ImageView for each item referenced by the Adapter
         public View getView(int position, View convertView, ViewGroup parent) {
-            /*
-        	LinearLayout layout = new LinearLayout(mContext);
-            layout.setLayoutParams(new GridView.LayoutParams(
-            		android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-            		android.view.ViewGroup.LayoutParams.MATCH_PARENT));
-            layout.setOrientation(LinearLayout.VERTICAL);
-            int rowWidth = (mMetrics.widthPixels) / 5;
- 
-            ImageView imageView;
+                        
             if (convertView == null) {
-                imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new LinearLayout.LayoutParams(rowWidth,200));
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            } else {
-                imageView = (ImageView) convertView;
-            }
-            imageView.setImageResource(mThumbIds[position]);
+	        	convertView = inflater.inflate(R.layout.gridview_layout, parent,
+	        			false);
+            }     
+            final ResolveInfo info = apps.get(position);
             
-            TextView txtImage = new TextView(mContext);
-            txtImage.setLayoutParams(new LinearLayout.LayoutParams(
-            		android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-            		android.view.ViewGroup.LayoutParams.MATCH_PARENT));
-            txtImage.setText(courseName[position]);
-            
-            layout.addView(imageView);
-            layout.addView(txtImage);
-            */
-        	LayoutInflater inflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        	
-            ImageView imageView;
-            
-            int rowWidth = (mMetrics.widthPixels) / 5;
-            View gridView;
-            
-            if (convertView == null) {
-	        	gridView = new View(mContext);
-	
-	            // get layout from dashboard_inner.xml
-	            gridView = inflater.inflate(R.layout.gridview_layout, null);
-            	
-                imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(rowWidth,200));
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                imageView.setImageResource(mThumbIds[position]);
-                
-                TextView textView = (TextView)findViewById(R.id.txtImage);
-                if(textView!=null){
-                    textView.setText(courseName[position]);
-                }
-            } else {
-                gridView = (View) convertView;
-            }                                                
-            return gridView;
+            TextView textView = (TextView)convertView.findViewById(R.id.txtImage);
+            textView.setText(courseName[position]);
+                       
+            return convertView;
         }
     }
 }

@@ -89,19 +89,19 @@
         android:id="@+id/categoryEM"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        
     />
     <ListView
         android:id="@+id/categoryRL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+       
     />
     <ListView
         android:id="@+id/categoryEL"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"
+        
     />
     
 </LinearLayout>

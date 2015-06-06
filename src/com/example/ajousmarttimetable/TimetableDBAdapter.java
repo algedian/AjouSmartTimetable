@@ -21,16 +21,20 @@ public class TimetableDBAdapter  {
 	}
 	
 	//여기보기
-	public ArrayList<String> getCourses(){
+	public Course getCoursesByCourseName(String courseName){
 		SQLiteDatabase db = courseDBhelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery("select courseCode, courseName, professorName, classroom, time, task" +
-				" from course WHERE ", null);
-		ArrayList<String> list = new ArrayList<String>();
+				" from course WHERE course.courseName='" + courseName + "';", null);
+		Course res = new Course();
 		while (cursor.moveToNext()){
-			list.add(cursor.getString(1));
+			res.setCourseCode(cursor.getString(0));
+			res.setCourseName(cursor.getString(1));
+			res.setProfessorName(cursor.getString(2));
+			res.setClassroom(cursor.getString(3));
+			res.setTime(cursor.getString(4));
+			res.setTask(null);
 		}
-		cursor.close();
-		return list;
+		return res;
 	}
 
 	//여기보기

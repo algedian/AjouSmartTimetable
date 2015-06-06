@@ -10,9 +10,7 @@ public class AIM2DBAdapter {
 		this.UserID = userID;
 		UserInfo data = new UserInfo();
 		data.setMajor(""); // aim2에서 받아오는 것들 저장
-		data.setSemester(""); // aim2에서 받아오는 것들 저장
-		//data.addCourse(course); // aim2에서 받아오는 것들 저장
-		
+		data.setSemester(""); // aim2에서 받아오는 것들 저장		
 		
 		return data;
 		

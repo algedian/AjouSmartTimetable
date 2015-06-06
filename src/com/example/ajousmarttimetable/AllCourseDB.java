@@ -27,44 +27,8 @@ public class AllCourseDB extends SQLiteOpenHelper {
                 + "category TEXT NOT NULL, "
                 + "time TEXT NOT NULL )");
         
-        /*
-        db.execSQL("DELETE FROM AllCourse");
-        db.execSQL("INSERT INTO AllCourse VALUES ('50','컴퓨터프로그래밍','12','류기열','팔309','3','RM','2A 5A')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('57','운영체제','22','김재훈','팔110','3','RM','1A 3A')");        
-        db.execSQL("INSERT INTO AllCourse VALUES ('14','수학1','12','김성재','성204','3','RL','2A 5A')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('15','수학2','21','김수진','성203','3','RL','2D 5D')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('70','데이터베이스','31','변광준','팔110','4','RM','2B 4A')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('72','컴퓨터공학개론','11', '류기열', '팔1025', '3', 'RM', '1B 4B')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('73','네트워크운용사례','32', '조영종', '팔328', '3', 'EM', '2A 2B')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('74','모바일서비스플랫폼','41', '정태선', '팔309', '3', 'EM', '2B 4A')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('78','정보보호','31', '손태식', '팔309', '3', 'RM', '1E 3E')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('103','정컴개발연구', '41', '손태식', '', '3', 'EM', '2C 5C')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('270','창의적글쓰기', '22', '김기훈', '다503', '3', 'RL', '2C 5C')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('274','섹슈얼리티와한국사회', '22', '장범준', '다504', '3', 'RL', '3D 3E')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('301','음악의세계', '22', '아리아 정', '다503', '3', 'EL', '2F 4E')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('21', '물리학1', '11', '정역학', '성205', '3', 'RL', '2A 5A')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('29', '생명과학실험', '12', '김민수', '실104', '1', 'RL', '2C 2D')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('52', '디지털회로', '21', '김성수', '팔309', '3', 'RM', '1B 4B')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('56', '자료구조', '12', '강경란', '팔410', '3', 'RM', '2A 4A')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('59', '알고리즘', '32', '손경아', '팔110', '3', 'RM', '1D 4D')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('228', '수영', '22', '강사', '수원스포츠센터', '3', 'EL', '2E 2F')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('227', '태권도', '31', '김기민', '체육관', '3', 'EL', '2E 2F')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('9', '영어2', '11', 'Theresia', '율405', '3', 'EL', '1A 3A')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('83', '데이터마이닝', '42', '정태선', '팔328', '3', 'EM', '3F 5F')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('97', '네트워크소프트웨어실습', '31', '정태선', '팔325', '1', 'RM', '5E 5F')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('98', '무선네트워크', '32', '조영종', '팔328', '3', 'RM', '1C 4C')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('79', '컴파일러', '31', '김재훈', '팔1025', '3', 'RM', '2A 5A')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('249', '세계의가곡', '22', '아리아 정', '성305', '3', 'EL', '2B 2C')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('319', '현대인의성과사랑', '21', '이예지', '다507', '3', 'EL', '1E 3E')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('216', '일본어1', '21', '이수민', '다507', '3', 'EL', '2C 5C')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('215', '중국사회와문화', '12', '홍원선', '다505', '3', 'EL', '2F 4E')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('336', '과학과종교', '21', '이기훈', '다B102', '3', 'RL', '2B 4B')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('348', '수학이란무엇인가', '42', '정재원', '성205', '3', 'EL', '2B 4A')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('314', '스토리텔링이란무엇인가', '22', '민효린', '다502', '3', 'EL', '2C 5C')");
-        db.execSQL("INSERT INTO AllCourse VALUES ('62', '종합설계프로젝트', '42', '김재훈', '종104', '4', 'RM', '2C 2G')");
-		*/
-        //전필 RM, 전선 EM, 교선 EL, 교필 RL
-        
+       
+        //전필 RM, 전선 EM, 교선 EL, 교필 RL        
         db.insert("AllCourses", null, addcourse("50","컴퓨터프로그래밍","12","류기열","팔309","3","RM","2A 5A"));
         db.insert("AllCourses", null, addcourse("57","운영체제","22","김재훈","팔110","3","RM","1A 3A"));
         db.insert("AllCourses", null, addcourse("14","수학1","12","김성재","성204","3","RL","2A 5A"));
@@ -115,11 +79,11 @@ public class AllCourseDB extends SQLiteOpenHelper {
           values.put("courseName", courseName);
           values.put("res", res);
           values.put("professorName", professorName);
-          values.put("classroom", classroom);
-          values.put("category", category);
+          values.put("classroom", classroom);          
           values.put("time", time);
           values.put("credit", credit);
-
+          values.put("category", category);
+          
           return values;
     }
     

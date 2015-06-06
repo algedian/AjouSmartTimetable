@@ -26,9 +26,6 @@ public class MainActivity extends Activity {
 	ASTHandler handler;
 	private StringAdapter mAdapter = null;
 	
-	private static final String TYPEFACE_NAME = "Quicksand-Regular.otf.mp3";
-    private Typeface typeface = null;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,8 +35,7 @@ public class MainActivity extends Activity {
 		if(LogInActivity.logInActivity != null){
 			LogInActivity.logInActivity.finish();
 		}
-		loadTypeface();
-		
+				
 		// ListView에 아이템 추가
 		String a = new String("Show Timetable");
 		String b = new String("Make Timetable");
@@ -62,27 +58,7 @@ public class MainActivity extends Activity {
 		mListView.setAdapter(mAdapter);
 		
 		mListView.setOnItemClickListener(onClickListItem);    		
-	}
-	
-	private void loadTypeface(){
-        if(typeface==null)
-            typeface = Typeface.createFromAsset(getAssets(), TYPEFACE_NAME);
-    }
-	
-	@Override
-    public void setContentView(int viewId) {
-        View view = LayoutInflater.from(this).inflate(viewId, null);
-        ViewGroup group = (ViewGroup)view;
-        int childCnt = group.getChildCount();
-        for(int i=0; i<childCnt; i++){
-            View v = group.getChildAt(i);
-            if(v instanceof TextView){
-                ((TextView)v).setTypeface(typeface);
-                Log.i("setTypeface",v.toString());
-            }
-        }
-        super.setContentView(view);
-    }
+	}	
 	
 	private class StringAdapter extends ArrayAdapter<String> {
 		 
