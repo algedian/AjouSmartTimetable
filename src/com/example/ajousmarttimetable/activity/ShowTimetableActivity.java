@@ -42,13 +42,10 @@ public class ShowTimetableActivity extends Activity {
 	};
 	private GridLayout container;	
 	ArrayList<Course> courseList;
-	ArrayList<String> nameList;
-	
+	ArrayList<String> codeList;
+	String detailView = "false";
 	//
-	Activity act = this;
 	GridView gridview;
-	private List<ResolveInfo> apps;
-	private PackageManager pm;
 	//
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,26 +54,19 @@ public class ShowTimetableActivity extends Activity {
 		ttDBadapter = new TimetableDBAdapter(getApplicationContext());
 		
 		Intent intent = getIntent();
+		courseList = new ArrayList<Course>();
+		codeList = new ArrayList<String>();
 		courseList = (ArrayList<Course>)intent.getExtras().get("courseList");
-		nameList = (ArrayList<String>)intent.getExtras().getStringArrayList("nameList");
+		codeList = (ArrayList<String>)intent.getExtras().get("codeList");
 		for(int i=0 ; i<30 ; i++){
-			courseCode[i] = nameList.get(i);
+			courseCode[i] = codeList.get(i);
 		}
 	
 		
 		String btnSaveVisible = intent.getExtras().getString("btnSaveVisible");
 		
-		//
-		//Intent mainIntent = new Intent(ShowTimetableActivity.this , null);
-		//mainIntent.addCategory(Intent.CATEGORY_DEFAULT);
-		
-		//pm = getPackageManager();
-		//apps = pm.queryIntentActivities(mainIntent, 0);
-		
 		gridview = (GridView) findViewById(R.id.gridview);
 		gridview.setAdapter(new GridAdapter(getApplicationContext(),R.layout.show_tt_row));
-		//gridview.setOnItemClickListener(gridviewOnItemClickListener);
-		//
 		
 		container = (GridLayout)findViewById(R.id.glTimetable);
 		if(btnSaveVisible == null || btnSaveVisible.equals("")){
@@ -87,6 +77,8 @@ public class ShowTimetableActivity extends Activity {
 			btnSave.setVisibility(View.VISIBLE);
 			btnSave.setOnClickListener(btnSaveOnClickListener);
 		}	
+		
+		detailView = intent.getExtras().getString("detailView");
 	}
 	
 	public void onBackPressed() {
@@ -95,23 +87,7 @@ public class ShowTimetableActivity extends Activity {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-	
-	/*
-	private GridView.OnItemClickListener gridviewOnItemClickListener 
-	    = new GridView.OnItemClickListener() {
-	     
-	    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-	    	Intent intent = new Intent(ShowTimetableActivity.this, CourseDetailActivity.class);
-	    	Course c = ttDBadapter.getCoursesByCourseName(courseName[arg2]);
-	    	intent.putExtra("courseName", c.getCourseName());
-	    	intent.putExtra("profName", c.getProfessorName());
-	    	intent.putExtra("courseTime", c.getTime());
-	    	intent.putExtra("classroom", c.getClassroom());
-	    	startActivity(intent);
-	    }
-	};
-	*/
-	
+		
 	private View.OnClickListener btnSaveOnClickListener
 		= new View.OnClickListener() {	
 		@Override
@@ -122,7 +98,7 @@ public class ShowTimetableActivity extends Activity {
 		    FileOutputStream fos;
 		    
 		    try {
-		    	String filename = "/../../sdcard0/Pictures" + "capture" + new Date();
+		    	String filename = "/../../sdcard0/Pictures/" + "capture" + new Date();
 		    	fos = new FileOutputStream(
 		        		Environment.getExternalStorageDirectory().toString() 
 		        		+ filename + ".jpeg");
@@ -166,8 +142,6 @@ public class ShowTimetableActivity extends Activity {
 	        	convertView = inflater.inflate(R.layout.show_tt_row, parent,
 	        			false);
             }     
-            //final ResolveInfo info = apps.get(position);
-            
             TextView textView = (TextView)convertView.findViewById(R.id.textview);
             if(courseCode[position].equals("_")){
             	textView.setText("_");
@@ -181,28 +155,18 @@ public class ShowTimetableActivity extends Activity {
             	}
             	
             }
-            
-            //textView.setText(info.activityInfo.loadLabel(pm).toString());
                        
             textView.setOnClickListener(new TextView.OnClickListener() {
             	@Override
     			public void onClick(View v) {
     				// TODO Auto-generated method stub
-    				Intent intent = new Intent(ShowTimetableActivity.this, CourseDetailActivity.class);
-        	    	//intent.setComponent(new ComponentName(info.activityInfo.packageName, 
-        	    	//		info.activityInfo.name));
-    				
-    				/*
-    				nameList.get(getItem(position));
-    				Course c = ttDBadapter.getCoursesByCourseName(courseName[position]);
-        	    	intent.putExtra("courseName", c.getCourseName());
-        	    	intent.putExtra("profName", c.getProfessorName());
-        	    	intent.putExtra("courseTime", c.getTime());
-        	    	intent.putExtra("classroom", c.getClassroom());
-        	    	startActivity(intent);
-        	    	
-    				Log.i("textview onclick",);
-    				*/
+            		if(detailView.equals("true")){
+	    				Intent intent = new Intent(ShowTimetableActivity.this, CourseDetailActivity.class);
+	        	    	TextView tmp = (TextView) v;
+	    				
+	        	    	intent.putExtra("courseName",tmp.getText().toString());
+	        	    	startActivity(intent);
+            		}
     			}
             });            
             return convertView;

@@ -27,6 +27,6 @@ public class ServerTimetableDB extends SQLiteOpenHelper { // server's tt
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists timetable");
+        db.execSQL("drop table if exists serverTimetable");
     }
 }

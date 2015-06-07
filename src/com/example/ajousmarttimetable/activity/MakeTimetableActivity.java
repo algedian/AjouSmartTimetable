@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +40,11 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
    TextView txtCurrentCredit;
    TextView txtLeft;
    
-   ArrayList<String> namelist;
+   ArrayList<String> codeList;
    
    private CourseAdapter mAdapter = null;
+   
+   
    
    protected void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -69,9 +70,9 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
       btnSave.setOnClickListener(this);
       
       selectedCourseList = new ArrayList<Course>();
-      namelist = new ArrayList<String>(30);
+      codeList = new ArrayList<String>(30);
       for(int i=0 ; i<30 ; i++){
-    	  namelist.add("_");
+    	  codeList.add("_");
       }
       
       //courseList에 코스 가져오기
@@ -147,17 +148,38 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
          }         
             break;
          case R.id.btnSaveTimetable:{
+        	if(LogInActivity.userId.equals("201500001")){
+        		//LogInActivity.Atimetable = new ArrayList<Course>();
+        		LogInActivity.Atimetable = selectedCourseList;
+        	}
+        	else if(LogInActivity.userId.equals("201500002")){
+        		//LogInActivity.Btimetable = new ArrayList<Course>();
+        		LogInActivity.Btimetable = selectedCourseList;
+        		
+        	}
+        	else{
+        		
+        	}
+        	
+        	
+        	
             Intent intent = new Intent(MakeTimetableActivity.this, ShowTimetableActivity.class);
-            intent.putExtra("nameList", namelist);
+            intent.putExtra("codeList", codeList);
             intent.putExtra("courseList", selectedCourseList);
+            
+            serverDBadapter.setDefaultTimetable(selectedCourseList, LogInActivity.userId);
+            intent.putExtra("detailView", "false");
+            intent.putExtra("btnSaveVisible", "false");
+            startActivity(intent);
+            
+            /*
             for(int i=0 ; i<30 ; i++){
-            	Log.d("namelist" , namelist.get(i));
+            	Log.d("codeList" , codeList.get(i));
             }
             for(int i=0 ; i<selectedCourseList.size() ; i++){
             	Log.d("selelist", selectedCourseList.get(i).getCourseCode());
             }
-            
-            startActivity(intent);
+            */
          }         
             break;
       }
@@ -218,14 +240,14 @@ public class MakeTimetableActivity extends Activity implements View.OnClickListe
            Course curCourse = mAdapter.getItem(arg2);
            
            int[] tt = curCourse.getTimeInt();
-           Log.i("namelist", "size: " + namelist.size());
-           if(namelist.get(tt[0]).equals("_") && namelist.get(tt[1]).equals("_")){
+           //Log.i("codeList", "size: " + codeList.size());
+           if(codeList.get(tt[0]).equals("_") && codeList.get(tt[1]).equals("_")){
         	   if(subjCredit + currentCredit <= 19){
     	           currentCredit += subjCredit;
     	           txtCurrentCredit.setText(String.valueOf(currentCredit));
     	           selectedCourseList.add(curCourse);
-    	           namelist.set(tt[0], curCourse.getCourseCode());
-    	           namelist.set(tt[1], curCourse.getCourseCode());
+    	           codeList.set(tt[0], curCourse.getCourseCode());
+    	           codeList.set(tt[1], curCourse.getCourseCode());
                }else{
             	   Toast.makeText(getApplicationContext(), "최대이수학점을 넘겨 담을 수 없습니다." , Toast.LENGTH_SHORT).show();
                } 

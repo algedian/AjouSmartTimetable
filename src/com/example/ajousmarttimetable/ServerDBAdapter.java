@@ -13,6 +13,8 @@ import android.util.Log;
  */
 public class ServerDBAdapter {
 
+	public static int AttNum = 0; //00001
+	public static int BttNum = 0; //00002
     private ServerTimetableDB serverTtDBhelper;
     private UserDB userDBhelper;
     private CourseDB courseDBhelper;
@@ -26,27 +28,37 @@ public class ServerDBAdapter {
     }    
 
     //여기보기
-    public boolean setDefaultTimetable(Timetable timetable,String UserID){
+    public boolean setDefaultTimetable(ArrayList<Course> courseList, String UserID){
 
         ArrayList<Course> Courses;
         String Fullcourse = "";
         int i = 0;
         SQLiteDatabase db = serverTtDBhelper.getWritableDatabase();
-        Courses = timetable.getCourses();
-        Course course = new Course();
+        
+        //Courses = timetable.getCourses();
+        //Course course = new Course();
         ContentValues values = new ContentValues();
 
-        while(i<Courses.size()){
-            course = Courses.get(i);
-            Fullcourse = Fullcourse+course.getCourseCode();
-            // 나머지 timetable defaultflag false로 만드느 코드
-            i++;
+       	for(i=0 ; i<courseList.size() ; i++){
+            String tmp = courseList.get(i).getCourseCode();
+            if(tmp.length() == 1){
+            	tmp = "00" + tmp;
+            }else if(tmp.length() == 2){
+            	tmp = "0" + tmp;
+            }
+            Fullcourse += tmp;
         }
-        values.put("UserID",course.getCourseCode());
-        values.put("TimetableName",course.getCourseName());
+        values.put("userId",UserID);
+        String name = UserID;
+        if(name.equals("201500001")){
+        	name += "-" + AttNum++;
+        }else if(name.equals("201500002")){
+        	name += "-" + BttNum++;
+        }
+        values.put("timetableName",name);
         values.put("courses",Fullcourse);
 
-        db.insert("Timetable",null,values);
+        db.insert("serverTimetable",null,values);
 
         return true;
     }
@@ -56,9 +68,9 @@ public class ServerDBAdapter {
     	ArrayList<Course> courseList = new ArrayList<Course>();
     	
     	SQLiteDatabase db = allcourseDBhelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery("SELECT courseCode, courseName, professorName, time, classroom, credit"
-				+ " FROM AllCourses " + "WHERE AllCourses.category='" + category + "';", null);
-		
+    	Cursor cursor = db.rawQuery("SELECT courseCode, courseName, professorName, time, classroom, credit"
+					+ " FROM AllCourses " + "WHERE AllCourses.category='" + category + "';", null);
+    	
 		while(cursor.moveToNext()){
 			Course tmp = new Course();
 			tmp.setCourseCode(cursor.getString(0));
@@ -90,7 +102,7 @@ public class ServerDBAdapter {
     
     public Timetable getDefaultTimetable(String userId){
 		Timetable timetable = new Timetable();
-		ArrayList<String> courseCodeList = null;
+		ArrayList<String> courseCodeList = new ArrayList<String>();
 		
 		SQLiteDatabase db = serverTtDBhelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery("SELECT timetableName FROM serverTimetable "
@@ -99,17 +111,25 @@ public class ServerDBAdapter {
 		
 		if(cursor != null && cursor.getCount() > 0){		
 			
-			timetable.setTimetableName(cursor.getString(0));
+			//Log.i("cursor",cursor.getString(0));
+			String str="";
+			while(cursor.moveToNext()){
+				str = cursor.getString(0);
+			}
+			timetable.setTimetableName(str);
 			
 			cursor = db.rawQuery("SELECT courses FROM serverTimetable "
 					+ "WHERE serverTimetable.userId='" + userId + "';", null);
-						
-			String courses = cursor.getString(0);
 			
+			String courses = "";
+			while(cursor.moveToNext()){			
+				courses = cursor.getString(0);
+			}
+			Log.i("cursor",courses);
 			
-			for(int i=0 ; i<courses.length() ; i+=2){
-				String tmpstr = "";
-				tmpstr += courses.substring(i, i+1);
+			for(int i=0 ; i<courses.length() ; i+=3){
+				String tmpstr = courses.substring(i, i+3);
+				Log.i("tmpstr",tmpstr);
 				courseCodeList.add(tmpstr);
 			}				
 			

@@ -46,7 +46,7 @@ public final class R {
         public static final int gridview=0x7f060021;
         public static final int listMain=0x7f06000c;
         public static final int professorName=0x7f06001a;
-        public static final int textview=0x7f06000d;
+        public static final int textview=0x7f060022;
         public static final int textview3=0x7f06001c;
         public static final int txtClassroom=0x7f060003;
         public static final int txtCourseName=0x7f060000;
@@ -54,6 +54,7 @@ public final class R {
         public static final int txtCurrentCredit=0x7f060014;
         public static final int txtImage=0x7f060007;
         public static final int txtLeft=0x7f060015;
+        public static final int txtMain=0x7f06000d;
         public static final int txtProfName=0x7f060001;
         public static final int txtSelectCategory=0x7f06000e;
     }

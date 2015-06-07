@@ -21,14 +21,14 @@ public class CourseDB extends SQLiteOpenHelper {
                 + "courseName TEXT NOT NULL,"
                 + "professorName TEXT NOT NULL,"
                 + "classroom TEXT NOT NULL,"
-                + "time CHAR[10] NOT NULL"
-                + "task TEXT)");
+                + "time CHAR[10] NOT NULL)");
+        /*
+        db.execSQL("INSERT INTO course VALUES("
+        		+ "'073', '네트워크운용사례', '조영종', '팔328', '2A 2B')");
         
         db.execSQL("INSERT INTO course VALUES("
-        		+ "'073', '네트워크운용사례', '조영종', '팔328', '2A 2B', '')");
-        
-        db.execSQL("INSERT INTO course VALUES("
-        		+ "'029', '생명과학실험', '김민수', '실104', '2C 2D', '')");
+        		+ "'029', '생명과학실험', '김민수', '실104', '2C 2D')");
+        		*/
         
     }
     @Override

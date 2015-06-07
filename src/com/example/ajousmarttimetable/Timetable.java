@@ -6,13 +6,14 @@ import java.util.ArrayList;
 public class Timetable implements Serializable{
 
 	private String timetableName; //####-#-## ex)2015-1-01
-	private ArrayList<Course> courses;
+	private String courses;
+	public ArrayList<Course> courseList;
 	private String modifiedCoursecode;
 	private boolean defaultflag ;
 	
 	//여기보기
 	public Timetable(ArrayList<Course> Courses) {		
-		this.courses = Courses;
+		this.courseList = Courses;
 	}
 	
 	public Timetable() {
@@ -20,7 +21,7 @@ public class Timetable implements Serializable{
 	}
 	
 	public void addCourse(Course c){
-		courses.add(c);
+		courseList.add(c);
 	}
 	
 	public void submitTimetable(String semester,String UserID){
@@ -32,17 +33,17 @@ public class Timetable implements Serializable{
 		//new ServerDBAdapter().setDefaultTimetable(this, UserID);	
 	}
 	
-	public ArrayList<Course> getCourses() {
+	public String getCourses() {
 		return courses;
 	}
 	
 	public void setCourses(ArrayList<Course> courses) {
-		this.courses = courses;
+		this.courseList = courses;
 	}
 	
 	public void initialize(){
 		setTimetableName(null);
-		if(courses != null) courses.clear();
+		if(courses != null) courseList.clear();
 		defaultflag = false;
 	}
 	
@@ -50,9 +51,9 @@ public class Timetable implements Serializable{
 		
 		this.modifiedCoursecode = CourseCode;
 		int i=0;
-		while(i<courses.size()){
-			if(modifiedCoursecode.equals(courses.get(i).getCourseCode()))
-				return courses.get(i);
+		while(i<courseList.size()){
+			if(modifiedCoursecode.equals(courseList.get(i).getCourseCode()))
+				return courseList.get(i);
 		i++;
 		}
 		return null;
@@ -60,11 +61,11 @@ public class Timetable implements Serializable{
 	
 	public void enterModifiedInfo(String professorName,String classroom,String time){
 		int i=0;
-		while(i<courses.size()){
-			if(modifiedCoursecode.equals(courses.get(i).getCourseCode())){
-				courses.get(i).setClassroom(classroom);
-				courses.get(i).setProfessorName(professorName);
-				courses.get(i).setTime(time);
+		while(i<courseList.size()){
+			if(modifiedCoursecode.equals(courseList.get(i).getCourseCode())){
+				courseList.get(i).setClassroom(classroom);
+				courseList.get(i).setProfessorName(professorName);
+				courseList.get(i).setTime(time);
 				}		
 		i++;
 		}

@@ -38,6 +38,7 @@ public class TimetableDBAdapter  {
 	}
 
 	//여기보기
+	/*
 	public boolean addTimetable(Timetable timetable){
 		SQLiteDatabase db = courseDBhelper.getWritableDatabase();
 		ArrayList<Course> c;
@@ -62,7 +63,7 @@ public class TimetableDBAdapter  {
 		}
 		return true;
 	}
-	
+	*/
 	//여기보기
 	public ArrayList<String> getTimetableNames(String userId){ 
 		ArrayList<String> res = null;
