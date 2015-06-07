@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ajousmarttimetable.ASTHandler;
 import com.example.ajousmarttimetable.R;
 
 public class MainActivity extends Activity {
 
-	ASTHandler handler;
 	private StringAdapter mAdapter = null;
 	
 	@Override
@@ -31,7 +27,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-		handler = ASTHandler.getInstance();
 		if(LogInActivity.logInActivity != null){
 			LogInActivity.logInActivity.finish();
 		}
@@ -52,7 +47,7 @@ public class MainActivity extends Activity {
         list.add(e);
         list.add(f);
         
-        mAdapter = new StringAdapter(this, R.layout.row , list);      
+        mAdapter = new StringAdapter(this, R.layout.main_row , list);      
 		
 		ListView mListView = (ListView)findViewById(R.id.listMain);
 		mListView.setAdapter(mAdapter);
@@ -73,7 +68,7 @@ public class MainActivity extends Activity {
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.row, null);
+                v = vi.inflate(R.layout.show_tt_row, null);
             }
             
             String str = list.get(position);

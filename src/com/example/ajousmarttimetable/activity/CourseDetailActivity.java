@@ -12,20 +12,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.ajousmarttimetable.ASTHandler;
 import com.example.ajousmarttimetable.Course;
 import com.example.ajousmarttimetable.R;
 import com.example.ajousmarttimetable.ServerDBAdapter;
 
 public class CourseDetailActivity extends Activity {
 	
-	ASTHandler handler;
 	ServerDBAdapter serverDBadapter;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.course_detail);
-		handler = ASTHandler.getInstance();
 		serverDBadapter = new ServerDBAdapter(getApplicationContext());
 		
 		Intent intent = getIntent();

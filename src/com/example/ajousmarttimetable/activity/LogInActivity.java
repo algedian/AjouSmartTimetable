@@ -9,14 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.ajousmarttimetable.ASTHandler;
 import com.example.ajousmarttimetable.R;
 import com.example.ajousmarttimetable.ServerDBAdapter;
 import com.example.ajousmarttimetable.Timetable;
 
 public class LogInActivity extends Activity implements View.OnClickListener{
 	
-	ASTHandler handler;
 	ServerDBAdapter serverDBadapter;
 	EditText edtId;
 	EditText edtPw; 
@@ -31,7 +29,6 @@ public class LogInActivity extends Activity implements View.OnClickListener{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.log_in);
 		
-		handler = ASTHandler.getInstance();
 		logInActivity = LogInActivity.this;
 		edtId = (EditText)findViewById(R.id.editLoginId);
 		edtPw = (EditText)findViewById(R.id.editLoginPw);

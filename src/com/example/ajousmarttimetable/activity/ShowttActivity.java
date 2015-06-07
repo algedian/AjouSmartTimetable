@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -30,26 +30,25 @@ import com.example.ajousmarttimetable.Course;
 import com.example.ajousmarttimetable.R;
 import com.example.ajousmarttimetable.TimetableDBAdapter;
 
-public class ShowTimetableActivity extends Activity {
-	TimetableDBAdapter ttDBadapter;	
-	private String[] courseCode = {
-		"", "", "", "", "",
-		"", "", "", "", "",
-		"", "", "", "", "",
-		"", "", "", "", "",
-		"", "", "", "", "",
-		"", "", "", "", ""
-	};
-	private GridLayout container;	
-	ArrayList<Course> courseList;
-	ArrayList<String> nameList;
+public class ShowttActivity extends Activity {
+	TimetableDBAdapter ttDBadapter;
 	
-	//
-	Activity act = this;
-	GridView gridview;
+	private String[] courseName = {
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e",
+		"a", "b", "c", "d", "e"
+	};
+	
+	private GridLayout container;
 	private List<ResolveInfo> apps;
 	private PackageManager pm;
-	//
+	Activity act = this;
+	GridView gridview;
+	ArrayList<Course> courseList;
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.show_timetable);
@@ -58,26 +57,17 @@ public class ShowTimetableActivity extends Activity {
 		
 		Intent intent = getIntent();
 		courseList = (ArrayList<Course>)intent.getExtras().get("courseList");
-		nameList = (ArrayList<String>)intent.getExtras().getStringArrayList("nameList");
-		for(int i=0 ; i<30 ; i++){
-			courseCode[i] = nameList.get(i);
-		}
-	
+		
+		Log.i("showtt","courselist : " + courseList.get(0).getCourseName());
 		
 		String btnSaveVisible = intent.getExtras().getString("btnSaveVisible");
 		
-		//
-		//Intent mainIntent = new Intent(ShowTimetableActivity.this , null);
-		//mainIntent.addCategory(Intent.CATEGORY_DEFAULT);
-		
-		//pm = getPackageManager();
-		//apps = pm.queryIntentActivities(mainIntent, 0);
+		pm = getPackageManager();
+		apps = pm.queryIntentActivities(intent, 0);
 		
 		gridview = (GridView) findViewById(R.id.gridview);
-		gridview.setAdapter(new GridAdapter(getApplicationContext(),R.layout.show_tt_row));
-		//gridview.setOnItemClickListener(gridviewOnItemClickListener);
-		//
-		
+		gridview.setAdapter(new GridAdapter(this));
+		gridview.setOnItemClickListener(gridviewOnItemClickListener);
 		container = (GridLayout)findViewById(R.id.glTimetable);
 		if(btnSaveVisible == null || btnSaveVisible.equals("")){
 			//nothing 
@@ -86,7 +76,8 @@ public class ShowTimetableActivity extends Activity {
 			Button btnSave = (Button)findViewById(R.id.btnSave);
 			btnSave.setVisibility(View.VISIBLE);
 			btnSave.setOnClickListener(btnSaveOnClickListener);
-		}	
+		}
+		
 	}
 	
 	public void onBackPressed() {
@@ -96,12 +87,11 @@ public class ShowTimetableActivity extends Activity {
         startActivity(intent);
     }
 	
-	/*
 	private GridView.OnItemClickListener gridviewOnItemClickListener 
 	    = new GridView.OnItemClickListener() {
 	     
 	    public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-	    	Intent intent = new Intent(ShowTimetableActivity.this, CourseDetailActivity.class);
+	    	Intent intent = new Intent(ShowttActivity.this, CourseDetailActivity.class);
 	    	Course c = ttDBadapter.getCoursesByCourseName(courseName[arg2]);
 	    	intent.putExtra("courseName", c.getCourseName());
 	    	intent.putExtra("profName", c.getProfessorName());
@@ -110,7 +100,6 @@ public class ShowTimetableActivity extends Activity {
 	    	startActivity(intent);
 	    }
 	};
-	*/
 	
 	private View.OnClickListener btnSaveOnClickListener
 		= new View.OnClickListener() {	
@@ -140,20 +129,18 @@ public class ShowTimetableActivity extends Activity {
 	public class GridAdapter extends BaseAdapter {
         private Context mContext;
         LayoutInflater inflater;
-        private int mResource;
  
-        public GridAdapter(Context c, int textResource) {
-        	mContext = c;
-            inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            mResource = textResource;
+        public GridAdapter(Context c) {
+            inflater = (LayoutInflater) act
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);        	
         }
  
         public int getCount() {
-            return courseCode.length;
+            return apps.size();
         }
  
         public Object getItem(int position) {
-            return courseCode[position];
+            return apps.get(position);
         }
  
         public long getItemId(int position) {
@@ -163,48 +150,14 @@ public class ShowTimetableActivity extends Activity {
         public View getView(int position, View convertView, ViewGroup parent) {
                         
             if (convertView == null) {
-	        	convertView = inflater.inflate(R.layout.show_tt_row, parent,
+	        	convertView = inflater.inflate(R.layout.gridview_layout, parent,
 	        			false);
             }     
-            //final ResolveInfo info = apps.get(position);
+            final ResolveInfo info = apps.get(position);
             
-            TextView textView = (TextView)convertView.findViewById(R.id.textview);
-            if(courseCode[position].equals("_")){
-            	textView.setText("_");
-            	textView.setVisibility(View.INVISIBLE);
-            }
-            else{
-            	for(int i=0 ; i<courseList.size() ; i++){
-            		if(courseList.get(i).getCourseCode().equals(courseCode[position])){
-            			textView.setText(courseList.get(i).getCourseName());
-            		}
-            	}
-            	
-            }
-            
-            //textView.setText(info.activityInfo.loadLabel(pm).toString());
+            TextView textView = (TextView)convertView.findViewById(R.id.txtImage);
+            textView.setText(courseName[position]);
                        
-            textView.setOnClickListener(new TextView.OnClickListener() {
-            	@Override
-    			public void onClick(View v) {
-    				// TODO Auto-generated method stub
-    				Intent intent = new Intent(ShowTimetableActivity.this, CourseDetailActivity.class);
-        	    	//intent.setComponent(new ComponentName(info.activityInfo.packageName, 
-        	    	//		info.activityInfo.name));
-    				
-    				/*
-    				nameList.get(getItem(position));
-    				Course c = ttDBadapter.getCoursesByCourseName(courseName[position]);
-        	    	intent.putExtra("courseName", c.getCourseName());
-        	    	intent.putExtra("profName", c.getProfessorName());
-        	    	intent.putExtra("courseTime", c.getTime());
-        	    	intent.putExtra("classroom", c.getClassroom());
-        	    	startActivity(intent);
-        	    	
-    				Log.i("textview onclick",);
-    				*/
-    			}
-            });            
             return convertView;
         }
     }

@@ -64,10 +64,8 @@ public class ServerDBAdapter {
 			tmp.setCourseCode(cursor.getString(0));
 			
 			tmp.setCourseName(cursor.getString(1));
-			Log.d("tmp",cursor.getString(1));
 			
 			tmp.setProfessorName(cursor.getString(2));
-			Log.d("tmp",cursor.getString(2));
 			
 			tmp.setTime(cursor.getString(3));
 			
@@ -105,8 +103,7 @@ public class ServerDBAdapter {
 			
 			cursor = db.rawQuery("SELECT courses FROM serverTimetable "
 					+ "WHERE serverTimetable.userId='" + userId + "';", null);
-			
-			
+						
 			String courses = cursor.getString(0);
 			
 			
@@ -114,8 +111,7 @@ public class ServerDBAdapter {
 				String tmpstr = "";
 				tmpstr += courses.substring(i, i+1);
 				courseCodeList.add(tmpstr);
-			}		
-			
+			}				
 			
 			if(courseCodeList != null){
 				for(int i=0 ; i<courseCodeList.size() ; i++){

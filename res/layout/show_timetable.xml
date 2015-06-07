@@ -98,13 +98,13 @@
         >
 		
         <GridView
-   	    android:layout_width="320sp"
-   	    android:layout_height="500sp"
-   	    android:id="@+id/gridview"
-	    android:layout_marginTop="8sp"
-	    android:verticalSpacing="12sp"
-	    android:numColumns="5"
-	    android:listSelector="@drawable/list_selector"
+	   	    android:layout_width="320sp"
+	   	    android:layout_height="500sp"
+	   	    android:id="@+id/gridview"
+		    android:layout_marginTop="8sp"
+		    android:verticalSpacing="30sp"
+		    android:numColumns="5"
+		    android:listSelector="@drawable/list_selector"
    	    />
          
     </LinearLayout>
